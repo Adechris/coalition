@@ -1,0 +1,261 @@
+ 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+ 
+.top-bar {
+  background-color: #e7edf2;
+  color: #070101;
+  padding: 1rem 0;
+}
+
+.top-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.top-nav .nav-link {
+  color: #060606;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.user-name {
+  margin-right: 0.5rem;
+}
+
+.settings-btn {
+  color: #fff;
+}
+
+ 
+.left-sidebar {
+  background-color: #f4f4f4;
+  padding: 1rem;
+}
+
+.patient-list h3 {
+  margin-bottom: 1rem;
+}
+
+.patient-info {
+  cursor: pointer;
+}
+
+.patient-info:hover {
+  background-color: #e0e0e0;
+}
+
+.patient-pic {
+  width: 40px;
+  height: 40px;
+  margin-right: 0.5rem;
+}
+
+.patient-details h4 {
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.patient-details p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.more-btn {
+  color: #666;
+}
+
+ .main-content {
+  padding: 1rem;
+}
+
+.diagnosis-history {
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.diagnosis-history h2 {
+  margin-bottom: 1rem;
+}
+
+.vital-signs {
+  margin-top: 1rem;
+}
+
+.vital-sign {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.vital-sign h3 {
+  margin-bottom: 0.5rem;
+}
+
+.vital-sign p span {
+  color: #666;
+  font-size: 0.9rem;
+}
+ 
+.right-sidebar {
+  background-color: #f4f4f4;
+  padding: 1rem;
+}
+
+.patient-details {
+  text-align: center;
+}
+
+.patient-pic {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.patient-details h2 {
+  margin-bottom: 0.5rem;
+}
+
+.patient-details p {
+  margin-bottom: 0.5rem;
+}
+
+.show-all-btn {
+  margin-top: 1rem;
+}
+
+
+
+.chart-container {
+  background-color: #e0bbe4;  
+  padding: 15px;
+  border-radius: 8px;
+}
+.blood-pressure {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+.blood-pressure-item {
+  text-align: center;
+}
+.blood-pressure-item h4 {
+  margin-bottom: 5px;
+}
+.blood-pressure-item p {
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ .chart-container {
+      display: flex;
+      align-items: flex-start;
+      background-color: #e0bbe4; /* Light purple background */
+      padding: 15px;
+      border-radius: 8px;
+      height: 300px;
+    }
+    .chart-canvas {
+      flex: 1;
+    }
+    .blood-pressure {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 15px;
+      background-color: #e0bbe4; /* Same background color */
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .blood-pressure-item {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .blood-pressure-item h4 {
+      margin-bottom: 5px;
+    }
+    .blood-pressure-item p {
+      margin: 0;
+    }
+    .vital-sign-card {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .vital-sign-card.respiratory {
+      background-color: #add8e6; /* Light blue */
+    }
+    .vital-sign-card.temperature {
+      background-color: #ffcccb; /* Light red */
+    }
+    .vital-sign-card.heart-rate {
+      background-color: #ffb6c1; /* Light pink */
+    }
+    .patient-info {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .patient-info:hover {
+      background-color: #e0e0e0;
+    }
+    .patient-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .patient-info .details {
+      flex: 1;
+    }
+    .patient-info .details h5 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .patient-info .details p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }

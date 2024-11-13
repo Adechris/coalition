@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech.Care</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .chart-container {
+      display: flex;
+      align-items: flex-start;
+      background-color: #e0bbe4;  
+      padding: 15px;
+      border-radius: 8px;
+      height: 300px;
+    }
+    .chart-canvas {
+      flex: 1;
+    }
+    .blood-pressure {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-left: 15px;
+      background-color: #e0bbe4;  
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .blood-pressure-item {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .blood-pressure-item h4 {
+      margin-bottom: 5px;
+    }
+    .blood-pressure-item p {
+      margin: 0;
+    }
+    .vital-sign-card {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+    .vital-sign-card.respiratory {
+      background-color: #add8e6;  
+    }
+    .vital-sign-card.temperature {
+      background-color: #ffcccb;  
+    }
+    .vital-sign-card.heart-rate {
+      background-color: #ffb6c1; 
+    }
+    .patient-info {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background-color: #fff;
+      cursor: pointer;
+    }
+    .patient-info:hover {
+      background-color: #e0e0e0;
+    }
+    .patient-info img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .patient-info .details {
+      flex: 1;
+    }
+    .patient-info .details h5 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    .patient-info .details p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="top-bar">
+      <div class="top-bar-content container">
+        <div class="logo">Tech.Care</div>
+        <nav class="top-nav">
+          <ul class="nav">
+            <li class="nav-item"><a class="nav-link" href="#">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Patients</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Schedule</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Message</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Transactions</a></li>
+          </ul>
+        </nav>
+        <div class="user-info">
+          <img src="profile-pic.jpg" alt="Dr. Jose Simmons" class="profile-pic">
+          <span class="user-name">Dr. Jose Simmons</span>
+          <button class="settings-btn btn btn-link">...</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-3 left-sidebar">
+          <div class="patient-list">
+            <h3>Patients</h3>
+            <ul class="list-unstyled" id="patient-list">
+              <!--I want to dynamically fetch  Patient list by their names, profile picture  , gender and age  , so the patient lists go here -->
+            </ul>
+          </div>
+        </div>
+        <div class="col-6 main-content">
+          <div class="diagnosis-history bg-light p-3 rounded">
+            <h2>Diagnosis History</h2>
+            <div class="chart-container">
+              <div class="chart-canvas">
+                <canvas id="diagnosisChart"></canvas>
+              </div>
+              <div class="blood-pressure">
+                <div class="blood-pressure-item">
+                  <h4>Systolic</h4>
+                  <p id="systolic-value"></p>
+                  <p id="systolic-level" class="text-muted"></p>
+                </div>
+                <div class="blood-pressure-item">
+                  <h4>Diastolic</h4>
+                  <p id="diastolic-value"></p>
+                  <p id="diastolic-level" class="text-muted"></p>
+                </div>
+              </div>
+            </div>
+            <div class="vital-signs row">
+              <div class="col-4">
+                <div class="vital-sign-card respiratory">
+                  <h6>Respiratory Rate</h6>
+                  <p id="respiratory-rate"></p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="vital-sign-card temperature">
+                  <h6>Temperature</h6>
+                  <p id="temperature"></p>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="vital-sign-card heart-rate">
+                  <h6>Heart Rate</h6>
+                  <p id="heart-rate"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-3 right-sidebar">
+          <div class="patient-details text-center">
+            <img id="patient-pic" src="" alt="" class="patient-pic rounded-circle mb-3">
+            <h2 id="patient-name"></h2>
+            <p id="patient-dob"></p>
+            <p id="patient-gender"></p>
+            <p id="patient-contact"></p>
+            <p id="patient-emergency-contact"></p>
+            <p id="patient-insurance"></p>
+            <button class="show-all-btn btn btn-primary">Show All Information</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Based on the fetch method provided, my username is coalition and password is skills-test
+    let username = 'coalition';
+    let password = 'skills-test';
+    let auth = btoa(`${username}:${password}`);
+
+    //I Fetched data from the API
+    fetch('https://fedskillstest.coalitiontechnologies.workers.dev/', {
+      headers: {
+        'Authorization': `Basic ${auth}`
+      }
+    }).then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+      throw response;
+    }).then(function (data) {
+      //I got the data from the API and Find Jessica Taylor's details using the Find method
+      const jessicaDetails = data.find(patient => patient.name === "Jessica Taylor");
+      updateJessicaDetails(jessicaDetails);
+      populatePatientList(data);
+    }).catch(function (error) {
+      console.warn(error);
+    });
+
+    // Function to update the HTML with Jessica Taylor's details
+    function updateJessicaDetails(patient) {
+      if (patient) {
+        document.getElementById('patient-pic').src = patient.profile_picture;
+        document.getElementById('patient-name').innerHTML = patient.name;
+        document.getElementById('patient-dob').innerHTML = `Date of Birth: <p>${patient.date_of_birth}</p>`;
+        document.getElementById('patient-gender').innerHTML = `Gender: <p>${patient.gender}</p>`;
+        document.getElementById('patient-contact').innerHTML = `Contact Info: <p>${patient.phone_number}</p>`;
+        document.getElementById('patient-emergency-contact').innerHTML = `Emergency Contacts: <p>${patient.emergency_contact}</p>`;
+        document.getElementById('patient-insurance').innerHTML = `Insurance Provider: <p>${patient.insurance_type}</p>`;
+
+        //I  Updated blood pressure details of Jessica Taylor here
+        const latestDiagnosis = patient.diagnosis_history[0];
+        document.getElementById('systolic-value').innerHTML = latestDiagnosis.blood_pressure.systolic.value;
+        document.getElementById('systolic-level').innerHTML = latestDiagnosis.blood_pressure.systolic.levels;
+        document.getElementById('diastolic-value').innerHTML = latestDiagnosis.blood_pressure.diastolic.value;
+        document.getElementById('diastolic-level').innerHTML = latestDiagnosis.blood_pressure.diastolic.levels;
+
+        //I Updated other vital signs
+        document.getElementById('respiratory-rate').innerHTML = `<h5 style="font-weight:bold">${latestDiagnosis.respiratory_rate.value} bpm</h5>
+                                                                   <p>${latestDiagnosis.respiratory_rate.levels}</p>`;
+        document.getElementById('temperature').innerHTML = `<h5 style="font-weight:bold">${latestDiagnosis.temperature.value}°F</h5>
+                                                            <p>${latestDiagnosis.temperature.levels}</p>`;
+        document.getElementById('heart-rate').innerHTML = `<h5 style="font-weight:bold">${latestDiagnosis.heart_rate.value} bpm</h5>
+                                                           <p>${latestDiagnosis.heart_rate.levels}</p>`;
+
+        //I Initialized the chart gotten from the chart.js library
+        const ctx = document.getElementById('diagnosisChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: patient.diagnosis_history.map(entry => `${entry.month} ${entry.year}`),
+            datasets: [
+              {
+                label: 'Systolic',
+                data: patient.diagnosis_history.map(entry => entry.blood_pressure.systolic.value),
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)'
+              },
+              {
+                label: 'Diastolic',
+                data: patient.diagnosis_history.map(entry => entry.blood_pressure.diastolic.value),
+                borderColor: 'rgb(54, 162, 235)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                display: false  
+              },
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      }
+    }
+
+    //I wrote a function to get the patient list
+    function populatePatientList(patients) {
+      const patientList = document.getElementById('patient-list');
+      const patientData = [
+        { name: "Emily Williams", gender: "Female", age: 18, imgSrc: "https://fedskillstest.ct.digital/1.png" },
+        { name: "Ryan Johnson", gender: "Male", age: 45, imgSrc: "https://fedskillstest.ct.digital/2.png" },
+        { name: "Brandon Michelle", gender: "Male", age: 36, imgSrc: "https://fedskillstest.ct.digital/3.png" },
+        { name: "Jessica Taylor", gender: "Female", age: 28, imgSrc: "https://fedskillstest.ct.digital/4.png" },
+        { name: "Samantha Johnson", gender: "Female", age: 56, imgSrc: "https://fedskillstest.ct.digital/5.png" },
+        { name: "Ashley Martinez", gender: "Female", age: 54, imgSrc: "https://fedskillstest.ct.digital/6.png" },
+        { name: "Olivia Brown", gender: "Female", age: 32, imgSrc: "https://fedskillstest.ct.digital/7.png" },
+        { name: "Tyler Davis", gender: "Male", age: 19, imgSrc: "https://fedskillstest.ct.digital/8.png" }
+      ];
+
+      patientData.forEach(patient => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('patient-info');
+        listItem.innerHTML = `
+          <img src="${patient.imgSrc}" alt="${patient.name}">
+          <div class="details">
+            <h5>${patient.name}</h5>
+            <p>${patient.gender}, ${patient.age}</p>
+          </div>
+        `;
+        patientList.appendChild(listItem);
+      });
+    }
+  </script>
+</body>
+</html>
